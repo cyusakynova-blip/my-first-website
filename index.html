@@ -3,10 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urubuga Rwanjye</title>
+    <title>Rwanda Explorer | Ubukerarugendo n'Ingendo Nyaburanga</title>
+    <style>
+        :root {
+            --primary: #0f5132;
+            --secondary: #198754;
+            --accent: #ffc107;
+            --dark: #1a1e21;
+            --light: #f8f9fa;
+            --white: #ffffff;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        /* Navbar */
+        header {
+            background: var(--white);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span {
+            color: var(--accent);
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://unsplash.com') center/cover;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 5%;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* Filters */
+        .container {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* Tour Cards */
+        .tours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .tour-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .tour-card:hover {
+            transform: translateY(-5px);
+        }
+        .tour-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        .tour-content {
+            padding: 1.5rem;
+        }
+        .tour-tag {
+            background: #e8f5e9;
+            color: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .tour-title {
+            font-size: 1.3rem;
+            margin: 0.8rem 0;
+        }
+        .tour-details {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .tour-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            border-top: 1px solid #eee;
+            padding-top: 0.8rem;
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--primary);
+            color: var(--white);
+            padding: 4rem 5%;
+            text-align: center;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 2rem auto 0;
+        }
+        .feature-box {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        /* Booking Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.7rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 5%;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Murakaza neza ku rubuga rwanjye!</h1>
-    <p>Iyi ni website yanjye ya mbere nkoze nkoresheje GitHub.</p>
-</body>
-</html>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">Rwanda<span>Explorer</span></a>
+        <ul class="nav-links">
+            <li><a href="#tours">Ingendo</a></li>
+            <li><a href="#why-us">Impamvu Twebwe</a></li>
+            <li><a href="#contact">Twandikire</a></li>
+        </ul>
+        <button class="btn-primary" onclick="openModal('Urugendo Rwihariye')">Fata Umwanya</button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Sura Ubwiza bw'u Rwanda Natwe</h1>
+        <p>Tegura urugendo rwawe muri za Pariki z'igihugu, ku Kiyaga cya Kivu, n'ahantu ndangamateka ku biciro binogeye buri wese.</p>
+        <a href="#tours" class="btn-primary" style="background: var(--accent); color: var(--dark);">Reba Ingendo Zihari</a>
+    </section>
+
+    <!-- Tours Section -->
+    <section class="container" id="tours">
+        <div class="section-title">
+            <h2>Ingendo Zikunzwe Cyane</h2>
+            <p>Hitamo icyiciro wifuza gusura</p>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterTours('all')">Zose</button>
+            <button class="filter-btn" onclick="filterTours('pariki')">Pariki n'Inyamaswa</button>
+            <button class="filter-btn" onclick="filterTours('kivu')">Ikiyaga cya Kivu</button>
+            <button class="filter-btn" onclick="filterTours('umuco')">Umuco n'Amateka</button>
+        </div>
+
+        <div class="tours-grid" id="toursGrid">
+            <!-- Tour 1 -->
+            <div class="tour-card" data-category="pariki">
+                <img src="https://unsplash.com" alt="Pariki y'Akagera" class="tour-img">
+                <div class="tour-content">
+                    <span class="tour-tag">Pariki</span>
+                    <h3 class="tour-title">Umunsi 1 muri Pariki y'Akagera</h3>
+                    <p class="tour-details">Sura inyamaswa eshanu zikomeye (Big Five), gutembera mu bwato ku kiyaga cya Ihema, n'imodoka yabugenewe.</p>
+                    <div class="tour-price">45,000 RWF (Abanyarwanda) | $120 (Abanyamahanga)</div>
+                    <button class="btn-primary" style="width: 100%;" onclick="openModal('Umunsi 1 muri Pariki y\'Akagera')">Fata Umwanya Ubu</button>
+                </div>
+            </div>
+
+            <!-- Tour 2 -->
+            <div class="tour-card" data-category="kivu">
+                <img src="https://unsplash.com" alt="Ikiyaga cya Kivu" class="tour-img">
+                <div class="tour-content">
+                    <span class="tour-tag">Ikiyaga</span>
+                    <h3 class="tour-title">Weekend ku Kivu (Rubavu & Karongi)</h3>
+                    <p class="tour-details">Iminsi 2 n'ijoro 1 mu mahoteli meza ku nkombe z'ikiyaga, gutembera mu bwato ku birwa, n'amafunguro.</p>
